@@ -1,0 +1,29 @@
+<mat-card class="demo-panel">
+  <mat-toolbar>
+    <span>My Application</span>
+    <button type="button" md-button (click)="sidenav.toggle()">
+      Open Sidenav
+    </button>
+  </mat-toolbar>
+  <mat-card-content>
+    <mat-sidenav-container class="example-container">
+      <mat-sidenav #sidenav class="example-sidenav">
+        <mat-nav-list>
+          <mat-list-item *ngFor="let note of notes">
+            <a matLine href="...">{{ note.name }}</a>
+            <button mat-icon-button (click)="showInfo(link)">
+              <mat-icon>info</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <div class="example-sidenav-content">
+        <button type="button" md-button (click)="sidenav.toggle()">
+          Open Sidenav
+        </button>
+      </div>
+
+    </mat-sidenav-container>
+  </mat-card-content>
+</mat-card>

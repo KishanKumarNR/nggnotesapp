@@ -1,0 +1,13 @@
+.backgroundImg {
+  background-image: url("../../assets/note-wallpaper.jpg");
+  background-color: #cccccc;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+.button {
+  position: absolute;
+  top: 50%;
+}
