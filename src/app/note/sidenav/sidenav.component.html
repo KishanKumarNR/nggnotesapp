@@ -1,35 +1,37 @@
 <mat-card class="demo-panel">
   <mat-toolbar class="matToolbarbtn backGroundGrey">
-    <button md-icon-button mdTooltip="Check me" class="buttonMargin" (click)="showProjectNav()">
+    <button (click)="showProjectNav()" class="buttonMargin" md-icon-button mdTooltip="Check me">
       <mat-icon>list</mat-icon>
     </button>
-    <button md-icon-button mdTooltip="Check me" (click)="toggleCreateNote = !toggleCreateNote">
+    <button (click)="toggleCreateNote = !toggleCreateNote" md-icon-button mdTooltip="Check me">
       <mat-icon>create</mat-icon>
     </button>
-    <button md-icon-button mdTooltip="Check me" (click)="delete()">
+    <button (click)="delete()" md-icon-button mdTooltip="Check me">
       <mat-icon>delete</mat-icon>
     </button>
   </mat-toolbar>
   <mat-card-content>
-    <mat-sidenav-container class="example-container" *ngIf="shouldRun">
-      <mat-sidenav style="background-color:#bbb;" #sidenav class="example-sidenav" mode="side" opened [(opened)]="opened"
-                   (opened)="events.push('open!')"
-                   (closed)="events.push('close!')" [autoFocus]="false">
+    <mat-sidenav-container *ngIf="shouldRun" class="example-container">
+      <mat-sidenav #sidenav (closed)="events.push('close!')" (opened)="events.push('open!')" [(opened)]="opened" [autoFocus]="false"
+                   class="example-sidenav"
+                   mode="side"
+                   opened style="background-color:#bbb;">
         <mat-nav-list class="listProject">
           <h3 matSubheader>Folders</h3>
-          <mat-list-item *ngFor="let folder of folders | sort:'name'" [ngClass]="{deepblue: selectedFolderId === folder.id}"
-                         (click)="onSelectFolder(folder.id)"
+          <mat-list-item (click)="onSelectFolder(folder.id)"
                          (click)="openFolder(folder)"
-                         (click)="setType('folder')">
+                         (click)="setType('folder')"
+                         *ngFor="let folder of folders | sort:'name'"
+                         [ngClass]="{deepblue: selectedFolderId === folder.id}">
             <mat-icon matListIcon>folder</mat-icon>
             <p class="paddingZero ellipsis" mat-button>{{ folder.name }}</p>
           </mat-list-item>
           <mat-list-item [hidden]="toggleCreateFolder">
-            <input type="text" [(ngModel)]="newFolderName" (keyup)="onKey($event)"/>
+            <input class="customInputFixedWidth" (keyup)="onKey($event)" [(ngModel)]="newFolderName" type="text"/>
           </mat-list-item>
         </mat-nav-list>
         <div class="createFolder">
-          <mat-list-item mat-button (click)="toggleCreateFolder = !toggleCreateFolder">
+          <mat-list-item (click)="toggleCreateFolder = !toggleCreateFolder" mat-button>
             <mat-icon inline=true>create_new_folder</mat-icon>
             Add folder
           </mat-list-item>
@@ -40,23 +42,23 @@
           <div class="column1" style="background-color:#aaa;">
             <mat-nav-list>
               <h3 matSubheader>Notes</h3>
-              <mat-list-item *ngFor="let note of listNote" [ngClass]="{reoranged: selectedNoteId === note.id}"
-                             (click)="onSelectNote(note.id)"
-                             (click)="setContent(note)"
-                             (click)="setType('note')">
+              <mat-list-item (click)="onSelectNote(note.id)" (click)="setContent(note)"
+                             (click)="setType('note')"
+                             *ngFor="let note of listNote"
+                             [ngClass]="{reoranged: selectedNoteId === note.id}">
                 <mat-icon matListIcon>note</mat-icon>
                 <a class="ellipsis" matLine>{{ note.data }}</a>
-                <p matLine class="demo-2"> {{note.lastModifiedDate}} </p>
+                <p class="demo-2" matLine> {{note.lastModifiedDate}} </p>
                 <mat-divider></mat-divider>
               </mat-list-item>
               <mat-list-item [hidden]="toggleCreateNote">
-                <input type="text" [(ngModel)]="newTodoName" (keyup)="onTodoCreate($event)"/>
+                <input class="customInputFixedWidth" (keyup)="onTodoCreate($event)" [(ngModel)]="newTodoName" type="text"/>
               </mat-list-item>
             </mat-nav-list>
           </div>
           <div class="column" style="background-color:#bbb;">
             <p style="text-align: center; color: #555555">{{lastModifiedDate}}</p>
-            <textarea class="columnFull" style="background-color:#bbb;" [(ngModel)]="content"></textarea>
+            <textarea [(ngModel)]="content" class="columnFull" style="background-color:#bbb;"></textarea>
           </div>
         </div>
       </mat-sidenav-content>

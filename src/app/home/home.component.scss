@@ -7,7 +7,8 @@
   text-align: center;
 }
 
-.button {
+.buttonPositioned {
+  display: inline-block;
   position: absolute;
   top: 50%;
 }

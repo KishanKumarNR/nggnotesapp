@@ -1,3 +1,11 @@
+* {
+  opacity: 0.9;
+}
+
+*:hover {
+  opacity: 1.0;
+}
+
 .example-container {
   width: 100%;
   min-height: 300px;
@@ -12,9 +20,11 @@
 }
 
 .example-sidenav {
+  width: 200px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
+
 .demo-panel {
   margin: 10px;
 
@@ -58,7 +68,11 @@
   padding: 0px;
   margin: 0px;
 }
-.ellipsis { text-overflow: ellipsis; }
+
+.ellipsis {
+  text-overflow: ellipsis;
+}
+
 /* Create two equal columns that floats next to each other */
 .column1 {
   float: left;
@@ -66,7 +80,6 @@
   padding: 10px;
   height: auto;
 }
-
 
 
 /* Clear floats after the columns */
@@ -113,4 +126,8 @@
 
 .backGroundGrey {
   background-color: #aaa
+}
+
+.customInputFixedWidth {
+  width: -webkit-fill-available
 }

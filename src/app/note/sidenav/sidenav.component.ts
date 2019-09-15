@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NotescollectionService} from "../../notescollection.service";
-import { interval, Subscription } from 'rxjs';
+import {interval, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-sidenav',
@@ -23,7 +23,7 @@ export class SidenavComponent implements OnInit {
   newTodoName: any;
   lastModifiedDate: any;
   subscription: Subscription;
-  source: any = interval(10000)
+  source: any = interval(10000);
   setSelectedType: any;
 
   constructor(private NotescollectionService: NotescollectionService) {
@@ -58,7 +58,7 @@ export class SidenavComponent implements OnInit {
     this.selectedNoteId = id;
     this.subscription = this.source.subscribe(val =>
       this.NotescollectionService.updateNote(this.selectedFolderId, this.selectedNoteId, this.content)
-        .then(data => this.folders = data)
+        .then((data: any) => this.folders = data)
     );
   }
 
@@ -70,7 +70,7 @@ export class SidenavComponent implements OnInit {
 
   onTodoCreate(event: any) {
     if (event.key === "Enter") {
-      this.NotescollectionService.createTodoItem(event.target.value, this.selectedFolderId)
+      this.NotescollectionService.createNoteItem(event.target.value, this.selectedFolderId)
         .then((data: any) => {
           let selectedFolderIndex = this.selectedFolderId - 1;
           this.folders = data;
@@ -117,10 +117,10 @@ export class SidenavComponent implements OnInit {
   delete() {
     switch (this.setSelectedType) {
       case ("folder"):
-        if(confirm(`Do you want to delete entire folder and its contents of ${this.selectedFolderId}`)) {
+        if (confirm(`Do you want to delete entire folder and its contents of ${this.selectedFolderId}`)) {
           this.NotescollectionService.deleteFolder(this.selectedFolderId)
             .then(this.mutateFolders);
-        };
+        }
         break;
       case ("note"):
         if (confirm(`Do you want to delete ${this.selectedNoteId}`)) {

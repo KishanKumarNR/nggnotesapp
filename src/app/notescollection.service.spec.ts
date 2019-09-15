@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { NotescollectionService } from './notescollection.service';
+import {NotescollectionService} from './notescollection.service';
 
 describe('NotescollectionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

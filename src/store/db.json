@@ -14,5 +14,6 @@
         }
       ]
     }
-  ]
+  ],
+  "dbUrl": "http://my-json-server.typicode.com/kishankumarnr/ngxmynoteappdb1"
 }
