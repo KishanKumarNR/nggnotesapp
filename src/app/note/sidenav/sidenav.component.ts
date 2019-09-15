@@ -78,17 +78,21 @@ export class SidenavComponent implements OnInit {
       this.NotescollectionService.createNoteItem(event.target.value, this.selectedFolderId)
         .then((data: any) => {
           this.folders = data ? data : [];
-          for (let i = 0; i < this.folders.length; i++) {
-            if (this.folders[i].id === this.selectedFolderId) {
-              this.openFolder(this.folders[i]);
-              break;
-            }
-          }
+          this.updateList();
           this.ngOnDestroy();
           this.content = "";
           this.newTodoName = "";
           this.selectedNoteId = null;
         })
+    }
+  }
+
+  updateList() {
+    for (let i = 0; i < this.folders.length; i++) {
+      if (this.folders[i].id === this.selectedFolderId) {
+        this.openFolder(this.folders[i]);
+        break;
+      }
     }
   }
 
@@ -137,7 +141,13 @@ export class SidenavComponent implements OnInit {
       case ("note"):
         if (confirm(`Do you want to delete selected note - ${this.selectedNote.id}`)) {
           this.NotescollectionService.deleteNote(this.selectedFolderId, this.selectedNoteId)
-            .then(this.mutateFolders)
+            .then((data: any) => {
+              this.ngOnDestroy();
+              this.content = "";
+              this.selectedNoteId = null;
+              this.folders = data ? data : [];
+              this.updateList();
+            })
             .catch();
         }
         break;

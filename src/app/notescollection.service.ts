@@ -47,8 +47,14 @@ export class NotescollectionService {
     return new Promise(async (resolve, reject) => {
       let folder = folderId - 1;
       let note = noteId - 1;
-      if (folder > -1 && note > -1) {
-        this.appData[folder].notes[note].data = data;
+      for (let i = 0; i < this.appData.length; i++) {
+        if (this.appData[i].id === folderId) {
+          for (let j = 0; j < this.appData[i].notes.length; j++) {
+           if (this.appData[i].notes[j].id === noteId) {
+             this.appData[i].notes[j].data = data;
+           }
+          }
+        }
       }
       await this.persisted();
       resolve(JSON.parse(JSON.stringify(this.appData)));

@@ -16,7 +16,14 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Notes Schema
 
-[Schema](https://my-json-server.typicode.com/kishankumarnr/ngxmynoteappdb1)
+[Schema](http://my-json-server.typicode.com/kishankumarnr/ngxmynoteappdb1)
+
+Available resources
+ - app
+ - db
+
+[Source](https://github.com/kishankumarnr/ngxmynoteappdb1/blob/master/db.json)
+
 
 ## Further help
 
