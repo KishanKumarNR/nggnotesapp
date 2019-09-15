@@ -1,0 +1,18 @@
+{
+  "app": [
+    {
+      "id": 1,
+      "name": "default note",
+      "type": "folder",
+      "notes": [
+        {
+          "id": 1,
+          "type": "note",
+          "title": "default",
+          "data": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pretium, odio non dictum vulputate, augue augue euismod mi, sed sagittis turpis tellus vitae nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer sodales turpis nec elit vestibulum porta vel nec neque. Aliquam erat volutpat. Sed sit amet nibh ante. Curabitur nibh elit, pharetra nec porta vel, ultrices quis urna. Sed eu mi sit amet metus porttitor aliquam vel tristique erat.\n",
+          "lastModifiedDate": "Sun Sep 15 2019"
+        }
+      ]
+    }
+  ]
+}

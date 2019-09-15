@@ -12,18 +12,21 @@ import {
   MatCardModule,
   MatCardTitle,
   MatCheckboxModule, MatIconModule,
-  MatListModule,
+  MatListModule, MatMenuModule,
   MatSidenavModule,
   MatToolbarModule
 } from "@angular/material";
 import {FormsModule} from "@angular/forms";
+import { SortPipe } from './sort.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NoteComponent,
-    SidenavComponent
+    SidenavComponent,
+    SortPipe,
+    SortPipe
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import {FormsModule} from "@angular/forms";
     MatCheckboxModule,
     MatCardModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]
