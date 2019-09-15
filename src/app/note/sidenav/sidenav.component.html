@@ -18,7 +18,7 @@
                    opened style="background-color:#bbb;">
         <mat-nav-list class="listProject">
           <h3 matSubheader>Folders</h3>
-          <mat-list-item (click)="onSelectFolder(folder.id)"
+          <mat-list-item (click)="onSelectFolder(folder)"
                          (click)="openFolder(folder)"
                          (click)="setType('folder')"
                          *ngFor="let folder of folders | sort:'name'"
@@ -42,9 +42,9 @@
           <div class="column1" style="background-color:#aaa;">
             <mat-nav-list>
               <h3 matSubheader>Notes</h3>
-              <mat-list-item (click)="onSelectNote(note.id)" (click)="setContent(note)"
+              <mat-list-item (click)="onSelectNote(note)" (click)="setContent(note)"
                              (click)="setType('note')"
-                             *ngFor="let note of listNote"
+                             *ngFor="let note of listNote | sort:'lastModifiedDate'"
                              [ngClass]="{reoranged: selectedNoteId === note.id}">
                 <mat-icon matListIcon>note</mat-icon>
                 <a class="ellipsis" matLine>{{ note.data }}</a>

@@ -25,6 +25,8 @@ export class SidenavComponent implements OnInit {
   subscription: Subscription;
   source: any = interval(10000);
   setSelectedType: any;
+  selectedNote: any;
+  selectedFolder: any;
 
   constructor(private NotescollectionService: NotescollectionService) {
     this.opened = false;
@@ -54,40 +56,48 @@ export class SidenavComponent implements OnInit {
       })
   }
 
-  onSelectNote(id: any) {
-    this.selectedNoteId = id;
+  onSelectNote(data: any) {
+    this.selectedNote = JSON.parse(JSON.stringify(data));
+    this.selectedNoteId = data.id;
     this.subscription = this.source.subscribe(val =>
       this.NotescollectionService.updateNote(this.selectedFolderId, this.selectedNoteId, this.content)
         .then((data: any) => this.folders = data)
     );
   }
 
-  onSelectFolder(id: any) {
-    this.selectedFolderId = id;
+  onSelectFolder(data: any) {
+    this.selectedFolder = JSON.parse(JSON.stringify(data));
+    this.selectedFolderId = data.id;
     this.selectedNoteId = null;
     this.content = null;
   }
 
   onTodoCreate(event: any) {
     if (event.key === "Enter") {
+      this.toggleCreateNote = !this.toggleCreateNote;
       this.NotescollectionService.createNoteItem(event.target.value, this.selectedFolderId)
         .then((data: any) => {
-          let selectedFolderIndex = this.selectedFolderId - 1;
-          this.folders = data;
-          this.openFolder(this.folders[selectedFolderIndex]);
-          this.toggleCreateNote = !this.toggleCreateNote;
+          this.folders = data ? data : [];
+          for (let i = 0; i < this.folders.length; i++) {
+            if (this.folders[i].id === this.selectedFolderId) {
+              this.openFolder(this.folders[i]);
+              break;
+            }
+          }
+          this.ngOnDestroy();
+          this.content = "";
           this.newTodoName = "";
+          this.selectedNoteId = null;
         })
     }
   }
 
   onKey(event: any) {
     if (event.key === "Enter") {
+      this.toggleCreateFolder = !this.toggleCreateFolder;
       this.NotescollectionService.createFolder(event.target.value)
         .then((data: any) => {
-          this.folders = data;
-          this.toggleCreateFolder = !this.toggleCreateFolder;
-          this.newFolderName = "";
+          this.mutateFolders(data);
           this.selectedFolderId = this.folders.length;
         })
     }
@@ -102,6 +112,8 @@ export class SidenavComponent implements OnInit {
   }
 
   resetContent() {
+    this.newFolderName = "";
+    this.newTodoName = "";
     this.selectedNoteId = null;
     this.selectedFolderId = null;
     this.content = "";
@@ -117,13 +129,13 @@ export class SidenavComponent implements OnInit {
   delete() {
     switch (this.setSelectedType) {
       case ("folder"):
-        if (confirm(`Do you want to delete entire folder and its contents of ${this.selectedFolderId}`)) {
+        if (confirm(`Do you want to delete entire folder and its contents of ${this.selectedFolder.name}`)) {
           this.NotescollectionService.deleteFolder(this.selectedFolderId)
             .then(this.mutateFolders);
         }
         break;
       case ("note"):
-        if (confirm(`Do you want to delete ${this.selectedNoteId}`)) {
+        if (confirm(`Do you want to delete selected note - ${this.selectedNote.id}`)) {
           this.NotescollectionService.deleteNote(this.selectedFolderId, this.selectedNoteId)
             .then(this.mutateFolders)
             .catch();

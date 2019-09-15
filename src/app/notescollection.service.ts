@@ -33,7 +33,7 @@ export class NotescollectionService {
             localStorage.setItem(_NOTES, JSON.stringify(data.app));
           }
           this.syncData();
-          resolve(this.appData);
+          resolve(JSON.parse(JSON.stringify(this.appData)));
         }, ((error1: any) => console.log(error1)));
     });
   }
@@ -51,29 +51,32 @@ export class NotescollectionService {
         this.appData[folder].notes[note].data = data;
       }
       await this.persisted();
-      resolve(this.appData);
+      resolve(JSON.parse(JSON.stringify(this.appData)));
     });
   }
 
 
   async createNoteItem(value, folderId) {
     return new Promise(async (resolve) => {
-      let index = folderId - 1;
-      let todoId = Array.isArray(this.appData[index].notes) ? this.appData[index].notes.length + 1 : 0;
-      if (todoId) {
-        this.appData[index].notes.push({
-          id: todoId,
-          data: value,
-          type: "note",
-          lastModifiedDate: new Date().toDateString()
-        });
+      for (let i = 0; i < this.appData.length; i++) {
+        if (this.appData[i].id === folderId) {
+          let newNoteId = this.appData[i].notes.length + 1;
+          if (newNoteId) {
+            this.appData[i].notes.push({
+              id: newNoteId,
+              data: value,
+              type: "note",
+              lastModifiedDate: new Date().toDateString()
+            });
+          }
+        }
       }
       await this.persisted();
-      resolve(this.appData);
+      resolve(JSON.parse(JSON.stringify(this.appData)));
     })
   }
 
-  async createFolder(name) {
+  public createFolder(name) {
     return new Promise(async (resolve) => {
       let length = this.appData.length + 1;
       let newFolder = {
@@ -84,7 +87,7 @@ export class NotescollectionService {
       };
       this.appData.push(newFolder);
       await this.persisted();
-      return this.appData;
+      resolve(JSON.parse(JSON.stringify(this.appData)));
     });
   }
 
@@ -92,28 +95,29 @@ export class NotescollectionService {
     await delay(200);
     await this.init();
     return {
-      data: this.appData
+      data: JSON.parse(JSON.stringify(this.appData))
     };
   }
 
   public deleteNote(folderId, noteId) {
     return new Promise(async (resolve, reject) => {
-      let index = folderId - 1;
-      let deleteNoteAtIndex = noteId - 1;
-      await this.appData.length && this.appData[index].notes && this.appData[index].notes.length &&
-      this.appData[index].notes.splice(deleteNoteAtIndex, 1);
+      for (let itr = 0; itr < this.appData.length; itr++) {
+        if (this.appData[itr].id === folderId) {
+          this.appData[itr].notes = this.appData[itr].notes.filter((note: any) => note.id !== noteId);
+          break;
+        }
+      }
       await this.persisted();
-      resolve(this.appData);
+      resolve(JSON.parse(JSON.stringify(this.appData)));
     });
   }
 
-  public deleteFolder(folderId) {
+  public deleteFolder(deleteFolderAtId) {
     return new Promise(async (resolve, reject) => {
-      let deleteFolderAtIndex = folderId - 1;
-      await this.appData.length && this.appData[deleteFolderAtIndex] &&
-      this.appData.splice(deleteFolderAtIndex, 1);
+      this.appData = await this.appData.length &&
+      this.appData.filter((folder) => folder.id !== deleteFolderAtId);
       await this.persisted();
-      resolve(this.appData);
+      resolve(JSON.parse(JSON.stringify(this.appData)));
     });
   }
 }
